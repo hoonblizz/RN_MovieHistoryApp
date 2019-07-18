@@ -40,7 +40,14 @@ Try the following steps: <br>
 4. react-native start --reset-cache <br>
 
 ### Autolinking dependencies
-[Autolinking](https://github.com/react-native-community/cli/blob/master/docs/autolinking.md)
+If none of the above works but still getting Build error 65, <br>
+it's probably because of 'manually linked' dependencies such as 'async storage' and 'vector-icon'. <br>
+Try [Autolinking](https://github.com/react-native-community/cli/blob/master/docs/autolinking.md) <br>
+
+```
+cd ios && pod install && cd ..
+react-native run-ios
+```
 
 
 
