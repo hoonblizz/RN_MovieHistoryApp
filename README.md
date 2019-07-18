@@ -33,20 +33,21 @@ Start React Native <br>
 <br>
 ## Troubleshoot
 ### Build error 65
-Try the following steps: <br>
-1. Delete 'build' folder in 'ios' folder. <br>
-2. Delete 'node_module' folder and reinstall using `npm install`<br>
-3. killall -9 node
-4. react-native start --reset-cache <br>
-
-### Autolinking dependencies
-If none of the above works but still getting Build error 65, <br>
-it's probably because of 'manually linked' dependencies such as 'async storage' and 'vector-icon'. <br>
-Try [Autolinking](https://github.com/react-native-community/cli/blob/master/docs/autolinking.md) <br>
+In some cases, it's because of 'manually linked' dependencies such as 'async storage' and 'vector-icon'. <br>
+Try [Autolinking](https://github.com/react-native-community/cli/blob/master/docs/autolinking.md). <br>
 
 ```
 cd ios && pod install && cd ..
 react-native run-ios
+```
+<br>
+If none of the above works but still getting Build error 65, <br>
+Please try the following steps: <br>
+```
+1. Delete 'build' folder in 'ios' folder. <br>
+2. Delete 'node_module' folder and reinstall using `npm install`<br>
+3. killall -9 node
+4. react-native start --reset-cache <br>
 ```
 
 
