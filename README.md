@@ -19,8 +19,8 @@ contains a searchbar that searches the movie by title. User can add them into th
 
 ## Installation
 Clone This project and go to project folder. <br>
-`git clone https://github.com/hoonblizz/ReactNative_MyMovieHistory.git` <br>
-`cd ./ReactNative_MyMovieHistory` <br>
+`git clone https://github.com/hoonblizz/RN_MovieHistoryApp.git` <br>
+`cd ./RN_MovieHistoryApp` <br>
 <br>
 Download **key** folder and place it in the project folder. <br>
 (At the same level as **components** folder) <br>
