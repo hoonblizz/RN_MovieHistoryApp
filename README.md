@@ -46,7 +46,7 @@ Please try the following steps: <br>
 <br>
 1. Delete 'build' folder in 'ios' folder. <br>
 2. Delete 'node_module' folder and reinstall using `npm install`<br>
-3. killall -9 node
+3. killall -9 node <br>
 4. react-native start --reset-cache <br>
 
 
