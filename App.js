@@ -96,7 +96,7 @@ class ListScreen extends Component {
 
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.loadData();
   }
 
