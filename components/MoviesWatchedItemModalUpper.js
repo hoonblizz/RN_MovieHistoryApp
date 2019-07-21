@@ -1,7 +1,7 @@
 
 import React from 'react';
 import {StyleSheet, Text, View, Alert} from 'react-native';
-import { AirbnbRating, Button } from 'react-native-elements';
+import { Rating, Button } from 'react-native-elements';
 import DateTimePicker from "react-native-modal-datetime-picker";
 // https://github.com/mmazzarolo/react-native-modal-datetime-picker
 
@@ -38,13 +38,13 @@ class MoviesWatchedItemModalUpper extends React.Component {
   render() {
     return (
       <View style={styles.viewContainer}>
-      
-        <AirbnbRating
-          count={10}
-          reviews={["Terrible", "Bad", "Meh", "OK", "Good", "Hmm...", "Very Good", "Wow", "Amazing", "Unbelievable"]}
-          defaultRating={this.state.myRating}
-          size={20}
-          style={{}}
+
+        <Rating
+          type="star"   // star, rocket, bell, heart
+          ratingCount={10}
+          startingValue={this.state.myRating}
+          imageSize={25}
+          style={{marginBottom: 10}}
           onFinishRating={this.props.handleOnFinishRating}
         />
 
@@ -68,6 +68,7 @@ class MoviesWatchedItemModalUpper extends React.Component {
 
 const styles = StyleSheet.create({
   viewContainer: {
+    flex: 1,
     justifyContent: 'center'
   },
   watchedDateText: {

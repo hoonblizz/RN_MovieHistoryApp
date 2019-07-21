@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, ScrollView, StyleSheet, Text, View, Alert} from 'react-native';
+import {ScrollView, Dimensions, StyleSheet, Text, View, Alert} from 'react-native';
 import { ListItem, Overlay, AirbnbRating } from 'react-native-elements';
 import MoviesWatchedItemModal from './MoviesWatchedItemModal';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -45,7 +45,10 @@ class MoviesWatchedList extends React.Component {
   }
 
   render() {
+
     let list = this.state.totalMovieData;
+    var {height, width} = Dimensions.get('window');
+    //Alert.alert('Height: ' + height);
 
     if(list.length > 0) {
       return (
@@ -71,6 +74,7 @@ class MoviesWatchedList extends React.Component {
             isVisible={this.state.modalVisible}
             onBackdropPress={() => this.setState({ modalVisible: false })}
             borderRadius={10}
+            height={height - parseInt(height / 10)}
           >
             <MoviesWatchedItemModal
               movieDetail={this.state.selectedMovieData}
