@@ -1,19 +1,9 @@
 import AsyncStorage from '@react-native-community/async-storage';
-
-const getLocalStorageKey = (keyString) => {
-  switch(keyString) {
-    default:
-      return '@watchedMovieList_key';
-      break;
-    case "watchedMovieList":
-      return '@watchedMovieList_key';
-      break;
-  }
-};
+import { keyNames } from './keyNames';
 
 export const getLocalData = (keyString) => {
   return new Promise((resolve, reject) => {
-    AsyncStorage.getItem(getLocalStorageKey(keyString))
+    AsyncStorage.getItem(keyString)
     .then(res => {
       if (res !== null) resolve(res); // result is string
       else resolve(''); // return empty string
@@ -22,9 +12,10 @@ export const getLocalData = (keyString) => {
   });
 };
 
-export const setLocalData = (keyString, dataInObj) => {
+export const setLocalData = (keyString, dataInArray) => {
+
   return new Promise((resolve, reject) => {
-    AsyncStorage.setItem(getLocalStorageKey(keyString), JSON.stringify(dataInObj))
+    AsyncStorage.setItem(keyString, JSON.stringify(dataInArray))
     .then(res => {
       if (res !== null) resolve(true);
       else resolve(false);

@@ -4,6 +4,7 @@ import {Platform, StyleSheet, Text, View, TextInput, Button, Alert} from 'react-
 
 import { createBottomTabNavigator, createAppContainer, NavigationEvents } from 'react-navigation';
 import { getLocalData, setLocalData } from './apis/localStorage';
+import { keyNames } from './apis/keyNames';
 import StatusBarControl from './components/StatusBarControl';
 import MoviesWatchedList from './components/MoviesWatchedList';
 import MovieSearchContainer from './components/MovieSearchContainer';
@@ -17,18 +18,16 @@ class ListScreen extends Component {
       totalMovieData: [],
       isLoading: true
     };
+
     this.loadData = this.loadData.bind(this);
-    this.setDataToStorage = this.setDataToStorage.bind(this);
-    this.handleOnDateSelected = this.handleOnDateSelected.bind(this);
-    this.handleOnFinishRating = this.handleOnFinishRating.bind(this);
-    this.handleOnRemoveFromList = this.handleOnRemoveFromList.bind(this);
+
   }
 
   loadData() {
     // For Rerendering list.
     this.setState({isLoading: true}, async () => {
 
-      const watchedMovieList = await getLocalData('watchedMovieList');
+      const watchedMovieList = await getLocalData(keyNames.watchedMovieList);
       if(watchedMovieList) {
         this.setState({
           totalMovieData: JSON.parse(watchedMovieList),
@@ -40,60 +39,6 @@ class ListScreen extends Component {
         });
       }
     });
-  }
-
-  setDataToStorage(selectedMovie) { // selectedMovie is modified movie (rating or date)
-    var foundIndex = this.state.totalMovieData.findIndex(el => el.imdbID === selectedMovie.imdbID);
-    let cpyTotalMovieData = this.state.totalMovieData;
-    cpyTotalMovieData[foundIndex] = selectedMovie;
-
-    setLocalData('watchedMovieList', cpyTotalMovieData)
-    .then(() => {
-      this.setState({
-        totalMovieData: cpyTotalMovieData
-      });
-    })
-    .catch((err) => {
-
-    });
-
-  }
-
-  handleOnFinishRating(selectedMovie, selectedRating) { // obj, int
-    let cpySelectedMovie = selectedMovie;
-    cpySelectedMovie.myRating = selectedRating;
-    this.setDataToStorage(cpySelectedMovie);
-  }
-
-  handleOnDateSelected(selectedMovie, selectedDate) { // obj, string
-    let cpySelectedMovie = selectedMovie;
-    cpySelectedMovie.watched = selectedDate;
-    this.setDataToStorage(cpySelectedMovie);
-  }
-
-  handleOnRemoveFromList(selectedMovie) { // passed as prop to modal
-
-    this.setState({isLoading: true}, () => {
-      var foundIndex = this.state.totalMovieData.findIndex(el => el.imdbID === selectedMovie.imdbID);
-      let cpyTotalMovieData = this.state.totalMovieData;
-      const newTotalMovieData = [   // could use filter but just wanted to use ES6 way
-          ...cpyTotalMovieData.slice(0, foundIndex),
-          ...cpyTotalMovieData.slice(foundIndex + 1)
-      ];
-
-      setLocalData('watchedMovieList', newTotalMovieData)  
-      .then(() => {
-        this.setState({
-          totalMovieData: newTotalMovieData,
-          isLoading: false
-        });
-      })
-      .catch((err) => {
-        this.setState({ isLoading: false });
-      });
-
-    });
-
   }
 
   componentWillMount() {
@@ -113,13 +58,10 @@ class ListScreen extends Component {
         <View>
           <StatusBarControl />
           <MoviesWatchedList
-            totalMovieData={this.state.totalMovieData}
-            handleOnFinishRating={this.handleOnFinishRating}
-            handleOnDateSelected={this.handleOnDateSelected}
-            handleOnRemoveFromList={this.handleOnRemoveFromList}
+            totalMovieData={ this.state.totalMovieData }
           />
           <NavigationEvents
-            onWillFocus={this.loadData}
+
           />
         </View>
       );
@@ -139,21 +81,21 @@ class SearchScreen extends Component {
   handleAddToList(selectedMovie) {
     // Attach new properties
     let newMovie = selectedMovie;
-    newMovie.myRating = 1;
-    newMovie.watched = new Date().getFullYear() + ' ' + (new Date().getMonth() + 1) + ' ' + new Date().getDate();
+    newMovie[keyNames.myRating] = 1;
+    newMovie[keyNames.watched] = new Date().getFullYear() + ' ' + (new Date().getMonth() + 1) + ' ' + new Date().getDate();
 
-    getLocalData('watchedMovieList')
+    getLocalData(keyNames.watchedMovieList)
     .then(watchedMovieList => {
       if(watchedMovieList) {
         let newList = JSON.parse(watchedMovieList);
         newList.push(newMovie);
 
         // Future task: Sort by watched date
-        setLocalData('watchedMovieList', newList);
+        setLocalData(keyNames.watchedMovieList, newList);
       } else {
         let newList = [];
         newList.push(newMovie);
-        setLocalData('watchedMovieList', newList);
+        setLocalData(keyNames.watchedMovieList, newList);
       }
     });
 
