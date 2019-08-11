@@ -13,7 +13,7 @@ export const getLocalData = (keyString) => {
 };
 
 export const setLocalData = (keyString, dataInArray) => {
-
+  
   return new Promise((resolve, reject) => {
     AsyncStorage.setItem(keyString, JSON.stringify(dataInArray))
     .then(res => {

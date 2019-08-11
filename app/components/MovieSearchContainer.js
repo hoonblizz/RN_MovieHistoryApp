@@ -2,6 +2,8 @@ import React from 'react';
 import {ScrollView, StyleSheet, Text, View, Alert} from 'react-native';
 import { ListItem, SearchBar, Button } from 'react-native-elements';
 import Keys from '../../key/Keys';
+import { getLocalData, setLocalData } from '../apis/localStorage';
+import { keyNames } from '../apis/keyNames';
 
 /*
 Sample Search result
@@ -13,7 +15,8 @@ class MovieSearchContainer extends React.Component {
     this.state = {
       searchKeyword: '',
       searchURL: '',
-      searchData: []
+      searchData: [],
+      totalMovieData: props.totalMovieData
     };
     this.searchGapTimer = 0;  // for setTimeout
     this.apiKey = Keys.movieAPI;
@@ -59,8 +62,33 @@ class MovieSearchContainer extends React.Component {
     .then(resData => {
 
       // Movie found
-      this.props.handleAddToList(resData);
-      Alert.alert('Added to your list');
+      //this.props.handleAddToList(resData); // send to parent
+      // Attach new properties
+      let newMovie = JSON.parse(JSON.stringify(resData));
+      newMovie[keyNames.myRating] = 1;
+      newMovie[keyNames.watched] = new Date().getFullYear() + ' ' + (new Date().getMonth() + 1) + ' ' + new Date().getDate();
+
+      getLocalData(keyNames.watchedMovieList)
+      .then(watchedMovieList => {
+        if(watchedMovieList) {
+          let newList = JSON.parse(watchedMovieList);
+          newList.push(newMovie);
+
+          // Future task: Sort by watched date
+          setLocalData(keyNames.watchedMovieList, newList)
+          .then(() => {
+            Alert.alert('Added to your list');
+          });
+
+        } else {
+          let newList = [];
+          newList.push(newMovie);
+          setLocalData(keyNames.watchedMovieList, newList)
+          .then(() => {
+            Alert.alert('Added to your list');
+          });
+        }
+      });
 
     })
     .catch(err => {
@@ -75,6 +103,7 @@ class MovieSearchContainer extends React.Component {
     let searchData = this.state.searchData;
 
     return (
+
       <View>
         <SearchBar
           placeholder="Search Movie..."
@@ -104,6 +133,7 @@ class MovieSearchContainer extends React.Component {
           }
         </ScrollView>
       </View>
+
     );
   }
 }
