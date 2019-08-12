@@ -63,35 +63,38 @@ const TabNavigator = createBottomTabNavigator(
 const AppContainer = createAppContainer(TabNavigator);
 
 export default class App extends Component {
+  //const contextValue = useContext(TotalMovieListContext);
+
   constructor(props) {
     super(props);
 
+    // https://stackoverflow.com/questions/41030361/how-to-update-react-context-from-inside-a-child-component
+    // https://stackoverflow.com/questions/50502664/how-to-update-the-context-value-in-provider-from-the-consumer
+    this.setTotalMovieDataFnc = (updatedTotalMovieData) => {
+      this.setState({
+        totalMovieData: [...updatedTotalMovieData]
+      });
+      console.log('Set Movie done!! ');
+    };
+
     this.state = {
       totalMovieData: [],
-      isLoading: true
+      setTotalMovieDataFnc: this.setTotalMovieDataFnc
     };
 
     this.loadData = this.loadData.bind(this);
+
   }
 
-  loadData() {
-    // For Rerendering list.
-    this.setState({isLoading: true}, async () => {
+  async loadData() {
 
-      const watchedMovieList = await getLocalData(keyNames.watchedMovieList);
-      //Alert.alert('Loading done: ' + watchedMovieList)
-      if(watchedMovieList) {
-        const movieListArray = JSON.parse(watchedMovieList);
-        this.setState({
-          totalMovieData: [...movieListArray],
-          isLoading: false
-        });
-      } else {
-        this.setState({
-          isLoading: false
-        });
-      }
-    });
+    const watchedMovieList = await getLocalData(keyNames.watchedMovieList);
+
+    if(watchedMovieList) {
+      const movieListArray = JSON.parse(watchedMovieList);
+      this.setState({ totalMovieData: [...movieListArray] });
+    }
+
   }
 
   componentDidMount() {
@@ -100,7 +103,7 @@ export default class App extends Component {
 
   render() {
     return (
-      <TotalMovieListContext.Provider value={this.state.totalMovieData}>
+      <TotalMovieListContext.Provider value={this.state}>
         <AppContainer />
       </TotalMovieListContext.Provider>
     );

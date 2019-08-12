@@ -4,6 +4,8 @@ import { ListItem, SearchBar, Button } from 'react-native-elements';
 import Keys from '../../key/Keys';
 import { getLocalData, setLocalData } from '../apis/localStorage';
 import { keyNames } from '../apis/keyNames';
+import { sortTotalMovieData } from '../apis/appUtil';
+import { TotalMovieListContext } from '../apis/contexts';
 
 /*
 Sample Search result
@@ -15,8 +17,7 @@ class MovieSearchContainer extends React.Component {
     this.state = {
       searchKeyword: '',
       searchURL: '',
-      searchData: [],
-      totalMovieData: props.totalMovieData
+      searchData: []
     };
     this.searchGapTimer = 0;  // for setTimeout
     this.apiKey = Keys.movieAPI;
@@ -55,6 +56,18 @@ class MovieSearchContainer extends React.Component {
 
   };
 
+  storeInLocal(updatedTotalMovieData) {
+
+    const newList = sortTotalMovieData(updatedTotalMovieData);  // Sort
+
+    setLocalData(keyNames.watchedMovieList, newList)
+    .then(() => {
+      this.props.setTotalMovieDataFnc(newList);
+      Alert.alert('Added to your list');
+    });
+
+  }
+
   handleOnAddToList = (selectedMovie) => {
     // Find movie info then pass to parent
     fetch(Keys.movieGetAPIURL(selectedMovie.imdbID, this.apiKey))
@@ -68,30 +81,15 @@ class MovieSearchContainer extends React.Component {
       newMovie[keyNames.myRating] = 1;
       newMovie[keyNames.watched] = new Date().getFullYear() + ' ' + (new Date().getMonth() + 1) + ' ' + new Date().getDate();
 
+      let newList = [];
       getLocalData(keyNames.watchedMovieList)
       .then(watchedMovieList => {
         if(watchedMovieList) {
-          let newList = JSON.parse(watchedMovieList);
-          newList.push(newMovie);
-
-          // Future task: Sort by watched date
-          setLocalData(keyNames.watchedMovieList, newList)
-          .then(() => {
-            Alert.alert('Added to your list');
-          });
-
-        } else {
-          let newList = [];
-          newList.push(newMovie);
-          setLocalData(keyNames.watchedMovieList, newList)
-          .then(() => {
-            Alert.alert('Added to your list');
-          });
+          newList = JSON.parse(watchedMovieList);
         }
+        newList.push(newMovie);
+        this.storeInLocal(newList);
       });
-
-    })
-    .catch(err => {
 
     });
 
@@ -138,5 +136,17 @@ class MovieSearchContainer extends React.Component {
   }
 }
 
+const MovieSearchContainerWithContext = (Component) => {
+   return (props) => {
+     return (
+       <TotalMovieListContext.Consumer>
+          {({totalMovieData, setTotalMovieDataFnc}) => {
+             return <Component {...props} setTotalMovieDataFnc={setTotalMovieDataFnc} />
+          }}
+       </TotalMovieListContext.Consumer>
+     );
+   };
+};
 
-export default MovieSearchContainer;
+
+export default MovieSearchContainerWithContext(MovieSearchContainer);

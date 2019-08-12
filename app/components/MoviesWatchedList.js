@@ -13,7 +13,7 @@ import { TotalMovieListContext } from '../apis/contexts';
 class MoviesWatchedList extends React.Component {
 
   // 이게 있어야만 나중에 this.context로 엑세스 가능 (single context만 가능)
-  static contextType = TotalMovieListContext;
+  //static contextType = TotalMovieListContext;
 
   constructor(props) {
     super(props);
@@ -23,7 +23,6 @@ class MoviesWatchedList extends React.Component {
       selectedMovieData: {}
     };
 
-    //Alert.alert('Received: ' + props.totalMovieData.length)
     this.handleOnSelectMovie = this.handleOnSelectMovie.bind(this);
     this.handleOnFinishRating = this.handleOnFinishRating.bind(this);
     this.handleOnDateSelected = this.handleOnDateSelected.bind(this);
@@ -38,8 +37,6 @@ class MoviesWatchedList extends React.Component {
   // changedSelectedMovie is modified movie (rating or date)
   // changedTotalMovieData is movie list that is already changed.
   setDataToStorage(changedSelectedMovie, commandString) {
-
-    //Alert.alert('data is ' + JSON.stringify(this.state.totalMovieData))
 
     let cpyTotalMovieData = [...this.state.totalMovieData];
 
@@ -66,6 +63,9 @@ class MoviesWatchedList extends React.Component {
 
     cpyTotalMovieData = sortTotalMovieData(cpyTotalMovieData);
 
+    // Update Context (update state in parent level)
+    this.props.setTotalMovieDataFnc(cpyTotalMovieData);
+
     setLocalData(keyNames.watchedMovieList, cpyTotalMovieData)
     .then(() => {
       this.setState({ totalMovieData: [...cpyTotalMovieData] });
@@ -74,7 +74,7 @@ class MoviesWatchedList extends React.Component {
   }
 
   //
-  handleOnSelectMovie(selectedMovie, totalMovieData) {
+  handleOnSelectMovie(selectedMovie) {
     this.setState({
       modalVisible: true,
       selectedMovieData: selectedMovie
@@ -106,15 +106,20 @@ class MoviesWatchedList extends React.Component {
 
   // Important!!
   componentDidUpdate(previousProps, previousState) {
-    if (previousState.totalMovieData !== this.context) {
-      this.setState({ totalMovieData: this.context });
+    if (JSON.stringify(previousState.totalMovieData) !== JSON.stringify(this.props.totalMovieData)) {
+      this.setState({ totalMovieData: [...this.props.totalMovieData] });
     }
   }
 
-  renderList(totalMovieData) {
+  // argument 안에 {} 로 써주는걸 destructing 이라한다.
+  // 원래는 someObject.totalMovieData, someObject.setTotalMovieData 이런식이 되는걸 줄여준것
+  render() {
 
     const {height, width} = Dimensions.get('window');
-    //Alert.alert('Length is ' + totalMovieData.length)
+    let totalMovieData = this.props.totalMovieData;
+
+    //console.log('props is ' + JSON.stringify(this.props))
+
     if (totalMovieData.length > 0) {
 
       return (
@@ -153,21 +158,31 @@ class MoviesWatchedList extends React.Component {
         </View>
       );
     } else {
+
       return(
         <View style={{top: 200, alignItems: 'center', justifyContent: 'center'}}>
           <Text style={{fontWeight: '600', fontSize: 16}}>Search and Add Movies!</Text>
         </View>
       );
-    }
-  }
 
-  render() {
-    return (
-      <TotalMovieListContext.Consumer>
-        {(totalMovieData) => this.renderList(totalMovieData)}
-      </TotalMovieListContext.Consumer>
-    );
+    }
+
   }
 };
 
-export default MoviesWatchedList;
+// 중요!!! Context를 render 밖에서 사용하게끔 하는 구조
+// Parent 로 받은 prop 은 모두 이어받고 ({...props} 로),
+// 위에 클래스 MoviesWatchedList 에서 this.props로 context를 사용할수 있게 해준다.
+const MoviesWatchedListWithContext = (Component) => {
+   return (props) => {
+     return (
+       <TotalMovieListContext.Consumer>
+          {({totalMovieData, setTotalMovieDataFnc}) => {
+             return <Component {...props} totalMovieData={totalMovieData} setTotalMovieDataFnc={setTotalMovieDataFnc} />
+          }}
+       </TotalMovieListContext.Consumer>
+     );
+   };
+};
+
+export default MoviesWatchedListWithContext(MoviesWatchedList);

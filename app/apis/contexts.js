@@ -1,3 +1,6 @@
 import React, { createContext } from 'react';
 
-export let TotalMovieListContext = React.createContext([]);
+export let TotalMovieListContext = React.createContext({
+  totalMovieData: [],
+  setTotalMovieDataFnc: () => {}
+});
