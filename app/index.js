@@ -9,6 +9,8 @@ import { TotalMovieListContext } from './apis/contexts';
 import StatusBarControl from './components/StatusBarControl';
 import MoviesWatchedList from './components/MoviesWatchedList';
 import MovieSearchContainer from './components/MovieSearchContainer';
+import firebase from 'react-native-firebase';
+import Keys from '../key/Keys';
 
 class ListScreen extends Component {
   constructor(props) {
@@ -16,9 +18,24 @@ class ListScreen extends Component {
   }
 
   render() {
+
+    const Banner = firebase.admob.Banner;
+    const AdRequest = firebase.admob.AdRequest;
+    const request = new AdRequest();
+
+    const unitId = Keys.admob_unitID_ios;
+
     return (
       <View>
         <StatusBarControl />
+        <Banner
+          unitId={unitId}
+          size={'SMART_BANNER'}
+          request={request.build()}
+          onAdLoaded={() => {
+            //console.log('Advert loaded');
+          }}
+        />
         <MoviesWatchedList />
         <NavigationEvents />
       </View>
@@ -102,6 +119,7 @@ export default class App extends Component {
   }
 
   render() {
+
     return (
       <TotalMovieListContext.Provider value={this.state}>
         <AppContainer />

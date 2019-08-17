@@ -20,6 +20,7 @@
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* movieHistoryAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* movieHistoryAppTests.m */; };
 		3C51D071CDF241A195D00D31 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9BE6ADA3AC6D4B79B424C2FD /* Octicons.ttf */; };
+		3F427586230856D400D267B1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F427585230856D400D267B1 /* GoogleService-Info.plist */; };
 		4E6EA8C143024677AFE9252A /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 433EF81CBC714AFCA838024A /* SimpleLineIcons.ttf */; };
 		5297B28144C54FACAD936423 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B094DE6C98394AB9903C0BAC /* MaterialCommunityIcons.ttf */; };
 		554DAAE1C4EE4FD0A184C1FF /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 41E1F2F2963347ECB9E8C3B3 /* Zocial.ttf */; };
@@ -72,6 +73,7 @@
 		1857F4D5B18A474F91F49BA0 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* movieHistoryApp-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "movieHistoryApp-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* movieHistoryApp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "movieHistoryApp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F427585230856D400D267B1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		41E1F2F2963347ECB9E8C3B3 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		433EF81CBC714AFCA838024A /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		4418044B5252616DD5191133 /* libPods-movieHistoryApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-movieHistoryApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -229,6 +231,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				3F427585230856D400D267B1 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* movieHistoryApp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* movieHistoryAppTests */,
@@ -410,6 +413,7 @@
 				AA548924833947A69958CBA1 /* FontAwesome5_Regular.ttf in Resources */,
 				2A6DEE08F372443A890EC489 /* FontAwesome5_Solid.ttf in Resources */,
 				8A03F67DD7A648B0B828FF65 /* Fontisto.ttf in Resources */,
+				3F427586230856D400D267B1 /* GoogleService-Info.plist in Resources */,
 				D1EA0976F6384054B3134996 /* Foundation.ttf in Resources */,
 				649AC0C5A36A46EA9F865F24 /* Ionicons.ttf in Resources */,
 				5297B28144C54FACAD936423 /* MaterialCommunityIcons.ttf in Resources */,

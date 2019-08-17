@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>388840292639-64a876nk4sc9sn3kdmoi30km46fn4gej.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.388840292639-64a876nk4sc9sn3kdmoi30km46fn4gej</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCIm9IAJ3lKtagGqQLf24p210V42GLZMr0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>388840292639</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.taehoonkim28.myMovieHistoryApp</string>
+	<key>PROJECT_ID</key>
+	<string>mymoviehistory</string>
+	<key>STORAGE_BUCKET</key>
+	<string>mymoviehistory.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:388840292639:ios:20b5dc1ab9fd9d4d</string>
+	<key>DATABASE_URL</key>
+	<string>https://mymoviehistory.firebaseio.com</string>
+</dict>
+</plist>

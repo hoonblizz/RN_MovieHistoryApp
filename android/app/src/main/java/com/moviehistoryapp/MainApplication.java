@@ -1,4 +1,4 @@
-package com.moviehistoryapp;
+package com.taehoonkim28.myMovieHistoryApp;
 
 import android.app.Application;
 import android.util.Log;

@@ -1,4 +1,4 @@
-package com.moviehistoryapp;
+package com.taehoonkim28.myMovieHistoryApp;
 
 import com.facebook.react.ReactActivity;
 
