@@ -6,10 +6,18 @@ import { getLocalData, setLocalData } from '../apis/localStorage';
 import { keyNames } from '../apis/keyNames';
 import { sortTotalMovieData } from '../apis/appUtil';
 import { TotalMovieListContext } from '../apis/contexts';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 /*
 Sample Search result
-{"Search":[{"Title":"Spider-Man","Year":"2002","imdbID":"tt0145487","Type":"movie","Poster":"https://m.media-amazon.com/images/M/MV5BZDEyN2NhMjgtMjdhNi00MmNlLWE5YTgtZGE4MzNjMTRlMGEwXkEyXkFqcGdeQXVyNDUyOTg3Njg@._V1_SX300.jpg"},{"Title":"The Amazing Spider-Man","Year":"2012","imdbID":"tt0948470","Type":"movie","Poster":"https://m.media-amazon.com/images/M/MV5BMjMyOTM4MDMxNV5BMl5BanBnXkFtZTcwNjIyNzExOA@@._V1_SX300.jpg"},{"Title":"Spider-Man 2","Year":"2004","imdbID":"tt0316654","Type":"movie","Poster":"https://m.media-amazon.com/images/M/MV5BMzY2ODk4NmUtOTVmNi00ZTdkLTlmOWYtMmE2OWVhNTU2OTVkXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg"},{"Title":"Spider-Man 3","Year":"2007","imdbID":"tt0413300","Type":"movie","Poster":"https://m.media-amazon.com/images/M/MV5BYTk3MDljOWQtNGI2My00OTEzLTlhYjQtOTQ4ODM2MzUwY2IwXkEyXkFqcGdeQXVyNTIzOTk5ODM@._V1_SX300.jpg"},{"Title":"Spider-Man: Homecoming","Year":"2017","imdbID":"tt2250912","Type":"movie","Poster":"https://m.media-amazon.com/images/M/MV5BNTk4ODQ1MzgzNl5BMl5BanBnXkFtZTgwMTMyMzM4MTI@._V1_SX300.jpg"},{"Title":"The Amazing Spider-Man 2","Year":"2014","imdbID":"tt1872181","Type":"movie","Poster":"https://m.media-amazon.com/images/M/MV5BOTA5NDYxNTg0OV5BMl5BanBnXkFtZTgwODE5NzU1MTE@._V1_SX300.jpg"},{"Title":"Spider-Man: Into the Spider-Verse","Year":"2018","imdbID":"tt4633694","Type":"movie","Poster":"https://m.media-amazon.com/images/M/MV5BMjMwNDkxMTgzOF5BMl5BanBnXkFtZTgwNTkwNTQ3NjM@._V1_SX300.jpg"},{"Title":"Along Came a Spider","Year":"2001","imdbID":"tt0164334","Type":"movie","Poster":"https://m.media-amazon.com/images/M/MV5BOTVlY2VhMWEtYmRlOC00YWVhLWEzMDktZWJlYzNiMWJmZTIwXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg"},{"Title":"Spider","Year":"2002","imdbID":"tt0278731","Type":"movie","Poster":"https://m.media-amazon.com/images/M/MV5BMmY4OGRmNWMtNmIyNS00YWQ5LWJmMGUtMDI3MWRlMmQ0ZDQzL2ltYWdlXkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SX300.jpg"},{"Title":"Spider-Man: The Animated Series","Year":"1994–1998","imdbID":"tt0112175","Type":"series","Poster":"https://m.media-amazon.com/images/M/MV5BMmQ1NzBlYmItNmZkZi00OTZkLTg5YTEtNTI5YjczZjk3Yjc1XkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SX300.jpg"}],"totalResults":"417","Response":"True"}
+{"Search":[
+{"Title":"Spider-Man","Year":"2002","imdbID":"tt0145487","Type":"movie","Poster":"https://m.media-amazon.com/images/M/MV5BZDEyN2NhMjgtMjdhNi00MmNlLWE5YTgtZGE4MzNjMTRlMGEwXkEyXkFqcGdeQXVyNDUyOTg3Njg@._V1_SX300.jpg"},
+{"Title":"The Amazing Spider-Man","Year":"2012","imdbID":"tt0948470","Type":"movie","Poster":"https://m.media-amazon.com/images/M/MV5BMjMyOTM4MDMxNV5BMl5BanBnXkFtZTcwNjIyNzExOA@@._V1_SX300.jpg"},
+{"Title":"Spider-Man 2","Year":"2004","imdbID":"tt0316654","Type":"movie","Poster":"https://m.media-amazon.com/images/M/MV5BMzY2ODk4NmUtOTVmNi00ZTdkLTlmOWYtMmE2OWVhNTU2OTVkXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg"},
+{"Title":"Spider-Man 3","Year":"2007","imdbID":"tt0413300","Type":"movie","Poster":"https://m.media-amazon.com/images/M/MV5BYTk3MDljOWQtNGI2My00OTEzLTlhYjQtOTQ4ODM2MzUwY2IwXkEyXkFqcGdeQXVyNTIzOTk5ODM@._V1_SX300.jpg"},
+{"Title":"Spider-Man: Homecoming","Year":"2017","imdbID":"tt2250912","Type":"movie","Poster":"https://m.media-amazon.com/images/M/MV5BNTk4ODQ1MzgzNl5BMl5BanBnXkFtZTgwMTMyMzM4MTI@._V1_SX300.jpg"},
+{"Title":"The Amazing Spider-Man 2","Year":"2014","imdbID":"tt1872181","Type":"movie","Poster":"https://m.media-amazon.com/images/M/MV5BOTA5NDYxNTg0OV5BMl5BanBnXkFtZTgwODE5NzU1MTE@._V1_SX300.jpg"},
+{"Title":"Spider-Man: Into the Spider-Verse","Year":"2018","imdbID":"tt4633694","Type":"movie","Poster":"https://m.media-amazon.com/images/M/MV5BMjMwNDkxMTgzOF5BMl5BanBnXkFtZTgwNTkwNTQ3NjM@._V1_SX300.jpg"},{"Title":"Along Came a Spider","Year":"2001","imdbID":"tt0164334","Type":"movie","Poster":"https://m.media-amazon.com/images/M/MV5BOTVlY2VhMWEtYmRlOC00YWVhLWEzMDktZWJlYzNiMWJmZTIwXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg"},{"Title":"Spider","Year":"2002","imdbID":"tt0278731","Type":"movie","Poster":"https://m.media-amazon.com/images/M/MV5BMmY4OGRmNWMtNmIyNS00YWQ5LWJmMGUtMDI3MWRlMmQ0ZDQzL2ltYWdlXkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SX300.jpg"},{"Title":"Spider-Man: The Animated Series","Year":"1994–1998","imdbID":"tt0112175","Type":"series","Poster":"https://m.media-amazon.com/images/M/MV5BMmQ1NzBlYmItNmZkZi00OTZkLTg5YTEtNTI5YjczZjk3Yjc1XkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SX300.jpg"}],"totalResults":"417","Response":"True"}
 */
 class MovieSearchContainer extends React.Component {
   constructor(props) {
@@ -17,14 +25,15 @@ class MovieSearchContainer extends React.Component {
     this.state = {
       searchKeyword: '',
       searchURL: '',
-      searchData: []
+      searchData: [],
+      totalMovieData: props.totalMovieData  // From Context below
     };
     this.searchGapTimer = 0;  // for setTimeout
     this.apiKey = Keys.movieAPI;
 
     this.handleOnAddToList = this.handleOnAddToList.bind(this);
     this.onHandleSearch = this.onHandleSearch.bind(this);
-
+    this.handleOnAlreadyExists = this.handleOnAlreadyExists.bind(this);
   }
 
   onHandleSearch = (searchKeyword) => {
@@ -39,9 +48,22 @@ class MovieSearchContainer extends React.Component {
         .then(res => res.json())
         .then(resData => {
 
+          // Label for watched -> for easier marking for 'add button'
+          let resDataCpy = [...resData.Search];
+          for(let searchEl in resDataCpy) {
+            if(this.state.totalMovieData.length > 0) {
+              console.log('Check id for ' + resDataCpy[searchEl].imdbID)
+              let pos = this.state.totalMovieData.map(el => {return el.imdbID}).indexOf(resDataCpy[searchEl].imdbID);
+              if(pos > -1) resDataCpy[searchEl].watched = true;
+              else resDataCpy[searchEl].watched = false;
+            } else resDataCpy[searchEl].watched = false;
+          }
+
+          console.log('Completed data: \n' + JSON.stringify(resDataCpy));
+
           // Sort result by Year
           this.setState({
-            searchData: resData.Search.sort((a, b) => { return b.Year > a.Year }).slice()
+            searchData: resDataCpy.sort((a, b) => { return b.Year > a.Year }).slice()
           });
 
         })
@@ -95,6 +117,10 @@ class MovieSearchContainer extends React.Component {
 
   }
 
+  handleOnAlreadyExists = (selectedMovie) => {
+    Alert.alert('""' + selectedMovie.Title + '" already added.');
+  }
+
 
   render() {
 
@@ -108,8 +134,10 @@ class MovieSearchContainer extends React.Component {
           onChangeText={text => this.onHandleSearch(text)}
           onClear={text => this.onHandleSearch('')}
           value={this.state.searchKeyword}
+          containerStyle={styles.searchBarContainer}
+          inputContainerStyle={styles.searchBarContainerInner}
         />
-        <ScrollView style={{marginBottom: 200}}>
+      <ScrollView style={{marginBottom: 120}}>
           {
             searchData.map((el, i) => (
               <ListItem
@@ -118,13 +146,17 @@ class MovieSearchContainer extends React.Component {
                 title={el.Title}
                 subtitle={el.Year}
                 rightElement={
-                  <View>
-                    <Button
-                      title="Add"
-                      type="outline"
-                      onPress={() => { this.handleOnAddToList(el) }}
-                    />
-                  </View>
+                  el.watched ?
+                  <Icon name="plus-square"
+                        size={28}
+                        color={keyNames.inactiveColor}
+                        onPress={() => { this.handleOnAlreadyExists(el) }} />
+                  :
+                  <Icon name="plus-square"
+                        size={28}
+                        color={keyNames.blueColor}
+                        onPress={() => { this.handleOnAddToList(el) }} />
+
                 }
               />
             ))
@@ -141,12 +173,21 @@ const MovieSearchContainerWithContext = (Component) => {
      return (
        <TotalMovieListContext.Consumer>
           {({totalMovieData, setTotalMovieDataFnc}) => {
-             return <Component {...props} setTotalMovieDataFnc={setTotalMovieDataFnc} />
+             return <Component {...props} totalMovieData={totalMovieData} setTotalMovieDataFnc={setTotalMovieDataFnc} />
           }}
        </TotalMovieListContext.Consumer>
      );
    };
 };
+
+const styles = StyleSheet.create({
+  searchBarContainer: {
+    backgroundColor: 'black'
+  },
+  searchBarContainerInner: {
+    backgroundColor: keyNames.darkGray
+  }
+});
 
 
 export default MovieSearchContainerWithContext(MovieSearchContainer);

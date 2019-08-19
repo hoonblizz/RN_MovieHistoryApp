@@ -7,5 +7,11 @@ export const keyNames = {
   REMOVE: 'REMOVE',
 
   myRating: 'myRating',
-  watched: 'watched'
+  watched: 'watched',
+
+  activeColor: '#EC8C22',
+  inactiveColor: "gray",
+  orangeColor: '#EC8C22',
+  blueColor: '#3599D4',
+  darkGray: '#2e2e2e'
 };

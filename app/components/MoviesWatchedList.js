@@ -132,7 +132,17 @@ class MoviesWatchedList extends React.Component {
                   leftAvatar={{ source: { uri: el.Poster } }}
                   title={el.Title}
                   subtitle={el.Genre + '\nWatched: ' + el.watched}
-                  badge={{ value: el.myRating, textStyle: { color: 'white' }, containerStyle: { marginTop: -20 } }}
+                  badge={{
+                      value: el.myRating,
+                      textStyle: { color: 'white', fontSize: 16 },
+                      containerStyle: {
+
+                      },
+                      badgeStyle: {
+                        minWidth: 25, minHeight: 20,
+                        backgroundColor: keyNames.blueColor
+                      }
+                  }}
                   chevronColor="black"
                   chevron
                   onPress={() => { this.handleOnSelectMovie(el, totalMovieData) }}

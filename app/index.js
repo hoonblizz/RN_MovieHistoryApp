@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import {Platform, StyleSheet, Text, View, TextInput, Button, Alert} from 'react-native';
 
-import { createBottomTabNavigator, createAppContainer, NavigationEvents } from 'react-navigation';
+import { createBottomTabNavigator, createAppContainer, NavigationEvents, BottomTabBar } from 'react-navigation';
 import { getLocalData, setLocalData } from './apis/localStorage';
 import { keyNames } from './apis/keyNames';
 import { TotalMovieListContext } from './apis/contexts';
@@ -11,6 +11,7 @@ import MoviesWatchedList from './components/MoviesWatchedList';
 import MovieSearchContainer from './components/MovieSearchContainer';
 import firebase from 'react-native-firebase';
 import Keys from '../key/Keys';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 class ListScreen extends Component {
   constructor(props) {
@@ -19,23 +20,8 @@ class ListScreen extends Component {
 
   render() {
 
-    const Banner = firebase.admob.Banner;
-    const AdRequest = firebase.admob.AdRequest;
-    const request = new AdRequest();
-
-    const unitId = Keys.admob_unitID_ios;
-
     return (
       <View>
-        <StatusBarControl />
-        <Banner
-          unitId={unitId}
-          size={'SMART_BANNER'}
-          request={request.build()}
-          onAdLoaded={() => {
-            //console.log('Advert loaded');
-          }}
-        />
         <MoviesWatchedList />
         <NavigationEvents />
       </View>
@@ -51,28 +37,73 @@ class SearchScreen extends Component {
   render() {
     return (
       <View>
-        <StatusBarControl />
         <MovieSearchContainer />
       </View>
     );
   }
 }
 
+
+const TabBarComponent = (props) => {
+  const Banner = firebase.admob.Banner;
+  const AdRequest = firebase.admob.AdRequest;
+  const request = new AdRequest();
+  const unitId = Keys.admob_unitID_ios;
+
+  return (
+    <View>
+      <Banner
+        unitId={unitId}
+        size={'SMART_BANNER'}
+        request={request.build()}
+        onAdLoaded={() => {
+          //console.log('Advert loaded');
+        }}
+      />
+      <BottomTabBar {...props} />
+    </View>
+  );
+}
+
+
 const TabNavigator = createBottomTabNavigator(
   {
-    List: ListScreen,
-    Search: SearchScreen
+    List: {
+      screen: ListScreen,
+      navigationOptions: {
+        tabBarLabel:"",
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="th-list" size={28} color={tintColor} />
+        )
+      }
+    },
+    Search: {
+      screen: SearchScreen,
+      navigationOptions: {
+        tabBarLabel:"",
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="search" size={28} color={tintColor} />
+        )
+      }
+    }
   },
   {
+    tabBarComponent: props => {
+      return (
+        <TabBarComponent
+          {...props}
+          style={{
+            borderTopColor: keyNames.inactiveColor,
+            backgroundColor: 'white',
+            paddingTop: '2%'
+          }}
+        />
+      );
+    },
     tabBarOptions: {
-      activeTintColor: '#e91e63',
-      labelStyle: {
-        fontSize: 16,
-        fontWeight: "600"
-      },
-      style: {
-        backgroundColor: 'white'
-      },
+      showLabel: false,
+      activeTintColor: keyNames.blueColor,
+      inactiveTintColor: keyNames.inactiveColor
     }
   }
 );
@@ -120,8 +151,11 @@ export default class App extends Component {
 
   render() {
 
+
+
     return (
       <TotalMovieListContext.Provider value={this.state}>
+        <StatusBarControl />
         <AppContainer />
       </TotalMovieListContext.Provider>
     );
