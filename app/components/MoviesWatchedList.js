@@ -63,13 +63,9 @@ class MoviesWatchedList extends React.Component {
 
     cpyTotalMovieData = sortTotalMovieData(cpyTotalMovieData);
 
-    // Update Context (update state in parent level)
+    // Update Context (update state in parent level) -> also see componentDidUpdate
     this.props.setTotalMovieDataFnc(cpyTotalMovieData);
-
-    setLocalData(keyNames.watchedMovieList, cpyTotalMovieData)
-    .then(() => {
-      this.setState({ totalMovieData: [...cpyTotalMovieData] });
-    });
+    setLocalData(keyNames.watchedMovieList, cpyTotalMovieData);
 
   }
 

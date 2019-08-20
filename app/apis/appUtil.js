@@ -32,3 +32,26 @@ export const sortTotalMovieData = (totalMovieData) => {
   return cpyTotalMovieData;
 
 };
+
+export const addExtraProperties = (selectedMovieData) => {
+
+  let cpyMovieData = JSON.parse(JSON.stringify(selectedMovieData));
+
+  const timeNow = new Date();
+
+  cpyMovieData[keyNames.myRating] = 1;
+  cpyMovieData[keyNames.watched] = timeNow.getFullYear() + ' ' + (timeNow.getMonth() + 1) + ' ' + timeNow.getDate();
+  cpyMovieData[keyNames.watchedWith] = [];
+  cpyMovieData[keyNames.memo] = '';
+  cpyMovieData[keyNames.added] = timeNow;
+  cpyMovieData[keyNames.addedEpoch] = timeNow.getTime();
+
+  return cpyMovieData;
+
+}
+
+export const checkMovieExistsInList = (targetImdbID, totalMovieData) => {
+  let pos = totalMovieData.map(el => {return el.imdbID}).indexOf(targetImdbID);
+  if(pos > -1) return true;
+  else return false;
+}

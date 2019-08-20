@@ -94,8 +94,7 @@ const TabNavigator = createBottomTabNavigator(
           {...props}
           style={{
             borderTopColor: keyNames.inactiveColor,
-            backgroundColor: 'white',
-            paddingTop: '2%'
+            backgroundColor: 'white'
           }}
         />
       );
@@ -150,8 +149,6 @@ export default class App extends Component {
   }
 
   render() {
-
-
 
     return (
       <TotalMovieListContext.Provider value={this.state}>

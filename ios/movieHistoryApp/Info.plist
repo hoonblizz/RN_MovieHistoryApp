@@ -26,11 +26,26 @@
 	<string>ca-app-pub-8517428504528421~7421636395</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<!--Include to allow all connections (DANGER)-->
+	<!--
 	<key>NSAppTransportSecurity</key>
 	<dict>
-	  <!--Include to allow all connections (DANGER)-->
 	  <key>NSAllowsArbitraryLoads</key>
 	      <true/>
+	</dict>
+	-->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>localhost</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>

@@ -8,6 +8,11 @@ export const keyNames = {
 
   myRating: 'myRating',
   watched: 'watched',
+  watchedWith: 'watchedWith',
+  memo: 'memo',
+  added: 'added',
+  addedEpoch: 'addedEpoch',
+
 
   activeColor: '#EC8C22',
   inactiveColor: "gray",

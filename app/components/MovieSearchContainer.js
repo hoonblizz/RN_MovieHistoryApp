@@ -4,7 +4,7 @@ import { ListItem, SearchBar, Button } from 'react-native-elements';
 import Keys from '../../key/Keys';
 import { getLocalData, setLocalData } from '../apis/localStorage';
 import { keyNames } from '../apis/keyNames';
-import { sortTotalMovieData } from '../apis/appUtil';
+import { sortTotalMovieData, addExtraProperties, checkMovieExistsInList } from '../apis/appUtil';
 import { TotalMovieListContext } from '../apis/contexts';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -37,7 +37,8 @@ class MovieSearchContainer extends React.Component {
   }
 
   onHandleSearch = (searchKeyword) => {
-    this.setState({ searchKeyword });
+    console.log('Current Total Movies: '+ this.state.totalMovieData.length +'\n\n' + JSON.stringify(this.state.totalMovieData));
+    this.setState({ searchKeyword: searchKeyword });
     clearTimeout(this.searchGapTimer);
 
     if(searchKeyword !== '' && searchKeyword.length > 1) {
@@ -49,6 +50,7 @@ class MovieSearchContainer extends React.Component {
         .then(resData => {
 
           // Label for watched -> for easier marking for 'add button'
+          /*
           let resDataCpy = [...resData.Search];
           for(let searchEl in resDataCpy) {
             if(this.state.totalMovieData.length > 0) {
@@ -60,10 +62,10 @@ class MovieSearchContainer extends React.Component {
           }
 
           console.log('Completed data: \n' + JSON.stringify(resDataCpy));
-
+          */
           // Sort result by Year
           this.setState({
-            searchData: resDataCpy.sort((a, b) => { return b.Year > a.Year }).slice()
+            searchData: resData.Search.sort((a, b) => { return b.Year > a.Year }).slice()
           });
 
         })
@@ -84,6 +86,7 @@ class MovieSearchContainer extends React.Component {
 
     setLocalData(keyNames.watchedMovieList, newList)
     .then(() => {
+      // Update Context (update state in parent level) -> also see componentDidUpdate
       this.props.setTotalMovieDataFnc(newList);
       Alert.alert('Added to your list');
     });
@@ -99,9 +102,7 @@ class MovieSearchContainer extends React.Component {
       // Movie found
       //this.props.handleAddToList(resData); // send to parent
       // Attach new properties
-      let newMovie = JSON.parse(JSON.stringify(resData));
-      newMovie[keyNames.myRating] = 1;
-      newMovie[keyNames.watched] = new Date().getFullYear() + ' ' + (new Date().getMonth() + 1) + ' ' + new Date().getDate();
+      const newMovie = addExtraProperties(resData);
 
       let newList = [];
       getLocalData(keyNames.watchedMovieList)
@@ -111,6 +112,7 @@ class MovieSearchContainer extends React.Component {
         }
         newList.push(newMovie);
         this.storeInLocal(newList);
+        this.onHandleSearch(this.state.searchKeyword);  // refresh search
       });
 
     });
@@ -118,13 +120,22 @@ class MovieSearchContainer extends React.Component {
   }
 
   handleOnAlreadyExists = (selectedMovie) => {
-    Alert.alert('""' + selectedMovie.Title + '" already added.');
+    Alert.alert('"' + selectedMovie.Title + '" already added.');
+  }
+
+  // Important!!!
+  componentDidUpdate(previousProps, previousState) {
+    if (JSON.stringify(previousState.totalMovieData) !== JSON.stringify(this.props.totalMovieData)) {
+      this.setState({ totalMovieData: [...this.props.totalMovieData] });
+      this.onHandleSearch(this.state.searchKeyword);  // refresh
+      //console.log('Search List updated!');
+    }
   }
 
 
   render() {
 
-    let searchData = this.state.searchData;
+    //let searchData = this.state.searchData;
 
     return (
 
@@ -139,14 +150,14 @@ class MovieSearchContainer extends React.Component {
         />
       <ScrollView style={{marginBottom: 120}}>
           {
-            searchData.map((el, i) => (
+            this.state.searchData.map((el, i) => (
               <ListItem
                 key={el.imdbID}
                 leftAvatar={{ source: { uri: el.Poster } }}
                 title={el.Title}
                 subtitle={el.Year}
                 rightElement={
-                  el.watched ?
+                  checkMovieExistsInList(el.imdbID, this.state.totalMovieData) ?
                   <Icon name="plus-square"
                         size={28}
                         color={keyNames.inactiveColor}
