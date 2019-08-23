@@ -49,7 +49,16 @@ const TabBarComponent = (props) => {
   const AdRequest = firebase.admob.AdRequest;
   const request = new AdRequest();
   const unitId = Keys.admob_unitID_ios;
-
+  /*
+  <Banner
+    unitId={unitId}
+    size={'SMART_BANNER'}
+    request={request.build()}
+    onAdLoaded={() => {
+      //console.log('Advert loaded');
+    }}
+  />
+  */
   return (
     <View>
       <Banner

@@ -119,7 +119,7 @@ class MoviesWatchedList extends React.Component {
     if (totalMovieData.length > 0) {
 
       return (
-        <View style={{marginBottom: 85}}>
+        <View style={{marginBottom: 20}}>
           <ScrollView>
             {
               totalMovieData.map((el, i) => (

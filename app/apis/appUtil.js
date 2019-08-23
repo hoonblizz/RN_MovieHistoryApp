@@ -24,7 +24,7 @@ export const sortTotalMovieData = (totalMovieData) => {
         compareElement2 = b.Title;
       }
 
-      return compareElement1 > compareElement2;
+      return compareElement1 < compareElement2;
     });
 
   }
